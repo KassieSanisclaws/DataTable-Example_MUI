@@ -11,12 +11,25 @@ function App() {
 
   const buttons = [
     <Button 
-         sx={{ border: "1px solid grey" }}
-         >
-          -
+      sx={{ border: "1px solid grey", }}>
+          <Typography variant="h6" sx={{ color: "GrayText" }}>
+              -
+          </Typography>
     </Button>,
-    <Button variant="contained" color="secondary" disabled>1</Button>,
-    <Button variant="contained" color="secondary">+</Button>,
+    <Button 
+      sx={{ border: "1px solid grey"  }}
+       >
+      <Typography variant="body2" sx={{ color: "GrayText" }}>
+          1
+        </Typography>
+    </Button>,
+    <Button 
+        sx={{ border: "1px solid grey" }}
+        >
+      <Typography variant="h6" sx={{ color: "GrayText" }}>
+          +
+        </Typography>
+    </Button>,
   ];
 
 
@@ -43,6 +56,7 @@ function App() {
                variant="subtitle2" 
                color="primary"
                fontSize={11}
+               sx={{ color: "GrayText" }}
                >
                 View
           </Typography>
@@ -56,7 +70,7 @@ function App() {
       valueOptions: Array.from({ length: 10}, (_, i) => (i + 1).toString()),
       editable: true,
       renderCell: () => (
-        <Box sx={{ borderRadius: "50px", maxHeight: "23px", margin: "12px 0 0 21px", width: "50px", border: "2px solid grey", }}>
+        <Box sx={{ borderRadius: "50px", maxHeight: "21px", margin: "12.5px 0 0 21px", width: "50px", border: "2px solid grey", }}>
           <FormControl variant='standard'>
              <NativeSelect
                 id="alternateMedia"
@@ -100,8 +114,8 @@ function App() {
       headerName: "Quantity",
       width: 145,
       renderCell: () => 
-        <Box sx={{ maxWidth: "40vw", overflow: "hidden" }}>
-           <ButtonGroup size="small" sx={{ width: "100%"}}>
+        <Box sx={{ maxWidth: "40vw", overflow: "hidden",  }}>
+           <ButtonGroup size="small" sx={{ width: "100%", }}>
              {buttons}
            </ButtonGroup>
         </Box>
