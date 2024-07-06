@@ -1,37 +1,94 @@
 import { useMemo, useState } from 'react'
-import { Box, Typography, Button, FormControl, InputLabel, SelectChangeEvent, MenuItem, NativeSelect, ButtonGroup } from '@mui/material'
-import { DataGrid, GridColDef, GridValidRowModel } from '@mui/x-data-grid'
+import { Box, Typography, Button, FormControl, NativeSelect, ButtonGroup, TablePaginationProps, } from '@mui/material'
+import { DataGrid, GridColDef, GridValidRowModel, gridPageCountSelector, useGridSelector, useGridApiContext, GridPagination, } from '@mui/x-data-grid'
+import MuiPagination from "@mui/material/Pagination";
 import { useDemoData } from '@mui/x-data-grid-generator'
 import './App.css'
+
+function Pagination({
+  page,
+  onPageChange,
+  className,
+}: Pick<TablePaginationProps, 'page' | 'onPageChange' | 'className'>) {
+  const apiRef = useGridApiContext();
+  const pageCount = useGridSelector(apiRef, gridPageCountSelector);
+
+  return (
+    <MuiPagination
+      color="secondary"
+      className={className}
+      count={pageCount}
+      page={page + 1}
+      onChange={(event, newPage) => {
+        onPageChange(event as any, newPage - 1);
+      }}
+    />
+  );
+}
+
+function CustomPagination(props: any) {
+  return <GridPagination ActionsComponent={Pagination} {...props} />;
+}
 
 function App() {
   const { data } = useDemoData({ dataSet: 'Commodity', rowLength: 100000, editable: true });
   const [pageSize, setPageSize] = useState(100);
   const [alternateMedia, setAlternateMedia] = useState<string>("1");
 
+
+
   const buttons = [
     <Button 
-      sx={{ border: "1px solid grey", }}>
+      disableRipple
+      sx={{ 
+          border: "none",
+          backgroundColor: "rgba(211, 211, 211, 0.5)", // faded grey/cream background color
+         
+
+        "&:hover": {
+          border: "none",
+          backgroundColor: "rgba(211, 211, 211, 0.5)", // keep the same background color on hover
+          }, 
+        }}
+        >
           <Typography variant="h6" sx={{ color: "GrayText" }}>
               -
           </Typography>
     </Button>,
     <Button 
-      sx={{ border: "1px solid grey"  }}
+      disableRipple
+      sx={{ 
+        border: "none",
+        backgroundColor: "rgba(211, 211, 211, 0.5)", // faded grey/cream background color 
+
+        "&:hover": {
+          border: "none",
+          backgroundColor: "rgba(211, 211, 211, 0.5)", // keep the same background color on hover
+        },
+         }}
        >
       <Typography variant="body2" sx={{ color: "GrayText" }}>
           1
         </Typography>
     </Button>,
-    <Button 
-        sx={{ border: "1px solid grey" }}
+    <Button
+        disableRipple 
+        sx={{ 
+          border: "none",
+          backgroundColor: "rgba(211, 211, 211, 0.5)", // faded grey/cream background color
+          borderBlock: "none",
+
+          "&:hover": {
+            border: "none",
+            backgroundColor: "rgba(211, 211, 211, 0.5)", // keep the same background color on hover
+            },
+          }}
         >
       <Typography variant="h6" sx={{ color: "GrayText" }}>
           +
         </Typography>
     </Button>,
   ];
-
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setAlternateMedia(e.target.value);
@@ -56,7 +113,7 @@ function App() {
                variant="subtitle2" 
                color="primary"
                fontSize={11}
-               sx={{ color: "GrayText" }}
+               sx={{ color: "black" }}
                >
                 View
           </Typography>
@@ -77,7 +134,11 @@ function App() {
                 value={alternateMedia}
                 // label={alternateMedia}
                 onChange={handleChange}
-                sx={{ padding: "0 0 0 8px", mt: -.5 }} 
+              sx={{
+                  padding: "0 0 0 8px", mt: -.5, '& .MuiNativeSelect-icon': {
+                  color: 'black',
+                  },
+               }} 
                 disableUnderline 
                  >
                {Array.from({ length: 10 }, (_, i) => (
@@ -115,7 +176,7 @@ function App() {
       width: 145,
       renderCell: () => 
         <Box sx={{ maxWidth: "40vw", overflow: "hidden",  }}>
-           <ButtonGroup size="small" sx={{ width: "100%", }}>
+           <ButtonGroup size="small" sx={{ width: "100%", mt: .9, height: "37px", }}>
              {buttons}
            </ButtonGroup>
         </Box>
@@ -130,7 +191,6 @@ function App() {
   
   return (
     <Box sx={{ height: 520, width: "100%" }}>
-
       <Typography
           variant="h3"
           component="h3"
@@ -141,15 +201,14 @@ function App() {
       <DataGrid  
           columns={columns}
           rows={data.rows}
-          initialState={{ pagination: { paginationModel: { pageSize } } }}
+          pagination
+          slots={{ pagination: CustomPagination,}}
+          initialState={{ ...data.initialState, pagination: { paginationModel: { pageSize } } }}
           paginationModel={{ pageSize, page: 0}}
           onPaginationModelChange={(newModel) => setPageSize(newModel.pageSize)}
           pageSizeOptions={[5, 10, 25, 50, 100]}
           />
             
-         
-     
-     
     </Box>
   )
 }
