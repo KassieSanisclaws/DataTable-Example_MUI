@@ -94,6 +94,6 @@ export const getColumns = (alternateMedia: string, handleChange: (e: React.Chang
         field: "button",
         headerName: "",
         width: 100,
-        renderCell: () => <Button variant="contained" color="secondary">Add</Button>
+        renderCell: () => <Button variant="contained" color="secondary"> Add </Button>
     },
 ];

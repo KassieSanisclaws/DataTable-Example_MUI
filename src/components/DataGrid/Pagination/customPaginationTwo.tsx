@@ -10,8 +10,9 @@ const CustomPaginationTwo = (props: any) => {
     const pageCount = useGridSelector(apiRef, gridPageCountSelector);
     const paginationModel = useGridSelector(apiRef, gridPaginationModelSelector);
     const rowCount = useGridSelector(apiRef, gridRowCountSelector);
-    const pageSizes = [5, 10, 25, 50, 100];
-
+    const pageSizes = [5, 10, rowCount];
+    
+    
     const handlePageChange = (e: React.ChangeEvent<unknown>, newPage: number) => {
         e.preventDefault();
         apiRef.current.setPage(newPage - 1);
@@ -40,16 +41,16 @@ const CustomPaginationTwo = (props: any) => {
                    key={size}
                    onClick={() => handlePageSizeChange(size)}
                    sx={{
-                        backgroundColor: pageSize === size ? '#FF2456' : 'inherit',
-                        color: pageSize === size ? 'white' : 'inherit',
-                        marginRight: 1,
-                        width: 34,
-                        height: 33,
-                        minWidth: 34,
-                        borderRadius: "50%",
+                       backgroundColor: pageSize === size  ? '#FF2456' : 'inherit',
+                       color: pageSize === size  ? 'white' : 'inherit',
+                       marginRight: 1,
+                       width: 34,
+                       height: 33,
+                       minWidth: 34,
+                       borderRadius: "50%",
                      }}
                    >
-                     {size}
+                    {size === rowCount ? <Typography variant='subtitle2' sx={{ textTransform: "lowerCase" }}>All</Typography> : size}
                 </Button>
                 ))}
             </Box>

@@ -59,7 +59,7 @@ const theme = createTheme({
     MuiButton: {
       styleOverrides: {
         root: {
-          borderRadius: "10px", // Example: Customizing border radius
+          borderRadius: "3px", // Example: Customizing border radius
           fontWeight: "bold", // Example: Customizing font weight
           boxShadow: "none", // Example: Removing default box shadow
           "&.MuiButton-containedPrimary": {
